@@ -13,4 +13,4 @@
 import pbr.version
 
 
-__version__ = pbr.version.VersionInfo('python-heatclient').version_string()
+__version__ = pbr.version.VersionInfo('python-kingclient').version_string()

@@ -42,7 +42,7 @@ def show_deprecated(deprecated, recommended):
 
 
 def do_service_list(hc, args=None):
-    '''List the Heat engines.'''
+    '''List the King engines.'''
     show_deprecated('king service-list',
                     'openstack quota service list')
 

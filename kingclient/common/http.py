@@ -246,11 +246,11 @@ class HTTPClient(object):
 
     def credentials_headers(self):
         creds = {}
-        # NOTE(dhu): (shardy) When deferred_auth_method=password, Heat
+        # NOTE(dhu): (shardy) When deferred_auth_method=password, King
         # encrypts and stores username/password.  For Keystone v3, the
         # intent is to use trusts since SHARDY is working towards
         # deferred_auth_method=trusts as the default.
-        # TODO(dhu): Make Keystone v3 work in Heat standalone mode.  Maye
+        # TODO(dhu): Make Keystone v3 work in King standalone mode.  Maye
         # require X-Auth-User-Domain.
         if self.username:
             creds['X-Auth-User'] = self.username
