@@ -265,10 +265,10 @@ class KingShell(object):
                             help=_("Shows the client version and exits."))
 
         parser.add_argument('-d', '--debug',
-                            default=bool(utils.env('HEATCLIENT_DEBUG')),
+                            default=bool(utils.env('KINGCLIENT_DEBUG')),
                             action='store_true',
                             help=_('Defaults to %(value)s.') % {
-                                'value': 'env[HEATCLIENT_DEBUG]'
+                                'value': 'env[KINGCLIENT_DEBUG]'
                             })
 
         parser.add_argument('-v', '--verbose',
@@ -290,18 +290,18 @@ class KingShell(object):
                                   {'value': 'env[OS_NO_CLIENT_AUTH]'}))
 
         parser.add_argument('--king-url',
-                            default=utils.env('HEAT_URL'),
+                            default=utils.env('KING_URL'),
                             help=_('Defaults to %(value)s.') % {
-                                'value': 'env[HEAT_URL]'
+                                'value': 'env[KING_URL]'
                             })
 
         parser.add_argument('--king_url',
                             help=argparse.SUPPRESS)
 
         parser.add_argument('--king-api-version',
-                            default=utils.env('HEAT_API_VERSION', default='1'),
+                            default=utils.env('KING_API_VERSION', default='1'),
                             help=_('Defaults to %(value)s or 1.') % {
-                                'value': 'env[HEAT_API_VERSION]'
+                                'value': 'env[KING_API_VERSION]'
                             })
 
         parser.add_argument('--king_api_version',
@@ -316,7 +316,7 @@ class KingShell(object):
                             help=argparse.SUPPRESS)
 
         parser.add_argument('--include-password',
-                            default=bool(utils.env('HEAT_INCLUDE_PASSWORD')),
+                            default=bool(utils.env('KING_INCLUDE_PASSWORD')),
                             action='store_true',
                             help=_('Send %(arg1)s and %(arg2)s to king.') % {
                                 'arg1': 'os-username',
@@ -467,7 +467,7 @@ class KingShell(object):
                 raise exc.CommandError(_("If you specify --os-no-client-auth "
                                          "you must also specify a King API "
                                          "URL via either --king-url or "
-                                         "env[HEAT_URL]"))
+                                         "env[KING_URL]"))
         else:
             # Tenant/project name or ID is needed to make keystoneclient
             # retrieve a service catalog, it's not required if
@@ -496,7 +496,7 @@ class KingShell(object):
         }
 
         endpoint = args.king_url
-        service_type = args.os_service_type or 'orchestration'
+        service_type = args.os_service_type or 'quota'
         if args.os_no_client_auth:
             # Do not use session since no_client_auth means using king to
             # to authenticate

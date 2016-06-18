@@ -303,6 +303,8 @@ class SessionClient(adapter.LegacyJsonAdapter):
     """HTTP client based on Keystone client session."""
 
     def request(self, url, method, **kwargs):
+        import pdb
+        pdb.set_trace()
         redirect = kwargs.get('redirect')
         kwargs.setdefault('user_agent', USER_AGENT)
 

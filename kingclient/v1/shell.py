@@ -33,12 +33,20 @@ import kingclient.exc as exc
 logger = logging.getLogger(__name__)
 
 
+def show_deprecated(deprecated, recommended):
+    logger.warning(_LW('"%(old)s" is deprecated, '
+                    'please use "%(new)s" instead'),
+                        {'old': deprecated,
+                        'new': recommended}
+                    )
+
+
 def do_service_list(hc, args=None):
     '''List the Heat engines.'''
     show_deprecated('king service-list',
-                    'openstack orchestration service list')
+                    'openstack quota service list')
 
-    fields = ['hostname', 'binary', 'engine_id', 'host',
+    fields = ['hostname', 'engine_id', 'host',
               'topic', 'updated_at', 'status']
     services = hc.services.list()
     utils.print_list(services, fields, sortby_index=1)

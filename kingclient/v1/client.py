@@ -13,14 +13,14 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from heatclient.common import http
-from heatclient.v1 import services
+from kingclient.common import http
+from kingclient.v1 import services
 
 
 class Client(object):
-    """Client for the Heat v1 API.
+    """Client for the King v1 API.
 
-    :param string endpoint: A user-supplied endpoint URL for the heat
+    :param string endpoint: A user-supplied endpoint URL for the king
                             service.
     :param string token: Token for authentication.
     :param integer timeout: Allows customization of the timeout for client
@@ -28,6 +28,6 @@ class Client(object):
     """
 
     def __init__(self, *args, **kwargs):
-        """Initialize a new client for the Heat v1 API."""
+        """Initialize a new client for the King v1 API."""
         self.http_client = http._construct_http_client(*args, **kwargs)
         self.services = services.ServiceManager(self.http_client)
