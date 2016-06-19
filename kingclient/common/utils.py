@@ -83,6 +83,10 @@ def newline_list_formatter(r):
     return '\n'.join(r or [])
 
 
+def newline_index(index=''):
+    return '\n'+ '='*20 + (index) + '='*20 +'\n'
+
+
 def print_dict(d, formatters=None):
     formatters = formatters or {}
     pt = prettytable.PrettyTable(['Property', 'Value'],

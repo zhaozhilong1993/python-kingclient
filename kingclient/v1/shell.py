@@ -33,6 +33,18 @@ import kingclient.exc as exc
 logger = logging.getLogger(__name__)
 
 
+
+VOLUME_FIELDS = (
+    'user_id',
+    'volume_num',
+    'volume_size',
+    'updated_at'
+)
+
+FIELDS = {
+    'volume':VOLUME_FIELDS,
+}
+
 def show_deprecated(deprecated, recommended):
     logger.warning(_LW('"%(old)s" is deprecated, '
                     'please use "%(new)s" instead'),
@@ -50,3 +62,14 @@ def do_service_list(hc, args=None):
               'topic', 'updated_at', 'status']
     services = hc.services.list()
     utils.print_list(services, fields, sortby_index=1)
+
+
+def do_quota_list(hc, args=None):
+    '''List the quota info.'''
+    show_deprecated('king quota-list',
+                    'openstack quota list')
+
+    quotas = hc.quota.list()
+    for key,value in quotas.items():
+        print utils.newline_index(key)
+        utils.print_list(value, FIELDS[key], sortby_index=1)

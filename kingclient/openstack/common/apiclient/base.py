@@ -144,7 +144,6 @@ class BaseManager(HookableMixin):
             data = data['values']
         except (KeyError, TypeError):
             pass
-
         return [obj_class(self, res, loaded=True) for res in data if res]
 
     def _get(self, url, response_key=None):
