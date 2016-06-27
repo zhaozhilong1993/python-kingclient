@@ -24,7 +24,7 @@ class Quota(base.Resource):
 class QuotaManager(base.BaseManager):
     resource_class = Quota
 
-    def _list(self, url, response_key=None, obj_class=None, json=None):
+    def _list_all(self, url, response_key=None, obj_class=None, json=None):
         """List the collection.
 
         :param url: a partial URL, e.g., '/servers'
@@ -46,6 +46,15 @@ class QuotaManager(base.BaseManager):
 
         data = body[response_key] if response_key is not None else body
 
+        """
+        format the data like:
+        {
+            "volume":[
+                {'user_id':'1xxx','volume_size':'1024','volume_num':4},
+                {'user_id':'2xxx','volume_size':'1024','volume_num':4},
+            ]
+        }
+        """
         resp = {}
         for key,value in data.items():
             for res in value:
@@ -60,4 +69,14 @@ class QuotaManager(base.BaseManager):
         :rtype: list of :class:`quota`
         """
         url = '/quota'
-        return self._list(url)
+        return self._list_all(url)
+
+
+    def default_list(self):
+        """Get the default of quota.
+
+        :rtype: list of :class:`quota`
+        """
+        url = '/quota/default'
+        return self._list_all(url)
+

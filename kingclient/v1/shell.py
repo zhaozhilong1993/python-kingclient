@@ -32,7 +32,14 @@ import kingclient.exc as exc
 
 logger = logging.getLogger(__name__)
 
-
+SERVICES_FIELDS = (
+    'hostname',
+    'engine_id',
+    'host',
+    'topic',
+    'updated_at',
+    'status'
+)
 
 VOLUME_FIELDS = (
     'user_id',
@@ -42,7 +49,8 @@ VOLUME_FIELDS = (
 )
 
 FIELDS = {
-    'volume':VOLUME_FIELDS,
+    'services':SERVICES_FIELDS,
+    'volume':VOLUME_FIELDS
 }
 
 def show_deprecated(deprecated, recommended):
@@ -58,10 +66,8 @@ def do_service_list(hc, args=None):
     show_deprecated('king service-list',
                     'openstack quota service list')
 
-    fields = ['hostname', 'engine_id', 'host',
-              'topic', 'updated_at', 'status']
     services = hc.services.list()
-    utils.print_list(services, fields, sortby_index=1)
+    utils.print_list(services, FIELDS['services'], sortby_index=1)
 
 
 def do_quota_list(hc, args=None):
@@ -73,3 +79,119 @@ def do_quota_list(hc, args=None):
     for key,value in quotas.items():
         print utils.newline_index(key)
         utils.print_list(value, FIELDS[key], sortby_index=1)
+
+
+def do_default_list(hc, args=None):
+    '''List the default quota info.'''
+    show_deprecated('king default-list',
+                    'openstack quota default list')
+
+    quotas = hc.quota.default_list()
+    for key,value in quotas.items():
+        print utils.newline_index(key)
+        utils.print_list(value, FIELDS[key], sortby_index=1)
+
+
+@utils.arg('size',
+           metavar='<size>',
+           type=int,
+           help='Volume size, in GiBs.')
+@utils.arg(
+    '--snapshot-id',
+    metavar='<snapshot-id>',
+    default=None,
+    help='Creates volume from snapshot ID. '
+         'Default=None.')
+@utils.arg(
+    '--snapshot_id',
+    help='Snapshot ID form the snapshot')
+@utils.arg(
+    '--source-volid',
+    metavar='<source-volid>',
+    default=None,
+    help='Creates volume from volume ID. '
+         'Default=None.')
+@utils.arg(
+    '--source_volid',
+    help='Creates volume from volume ID. Default=None.')
+@utils.arg(
+    '--image-id',
+    metavar='<image-id>',
+    default=None,
+    help='Creates volume from image ID. '
+         'Default=None.')
+@utils.arg(
+    '--image_id',
+    help='Creates volume from image ID. Default=None.')
+@utils.arg(
+    '--display-name',
+    metavar='<display-name>',
+    default=None,
+    help='Volume name. '
+         'Default=None.')
+@utils.arg(
+    '--display-description',
+    metavar='<display-description>',
+    default=None,
+    help='Volume description. '
+         'Default=None.')
+@utils.arg(
+    '--display_description',
+    help='Volume description. Default=None.')
+@utils.arg(
+    '--volume-type',
+    metavar='<volume-type>',
+    default=None,
+    help='Volume type. '
+         'Default=None.')
+@utils.arg(
+    '--volume_type',
+    help='Volume type. Default=None.')
+@utils.arg(
+    '--availability-zone',
+    metavar='<availability-zone>',
+    default=None,
+    help='Availability zone for volume. '
+         'Default=None.')
+@utils.arg(
+    '--availability_zone',
+    help='Availability zone for volume. Default=None.')
+@utils.arg('--metadata',
+           type=str,
+           nargs='*',
+           metavar='<key=value>',
+           default=None,
+           help='Metadata key and value pairs. '
+                'Default=None.')
+@utils.service_type('volume')
+def do_volumes_create(hc, args):
+    """Creates a volumes."""
+
+    volume_metadata = None
+    if args.metadata is not None:
+        volume_metadata = _extract_metadata(args)
+
+    volume = hc.volumes.create(args.size,
+                               args.snapshot_id,
+                               args.source_volid,
+                               args.display_name,
+                               args.display_description,
+                               args.volume_type,
+                               availability_zone=args.availability_zone,
+                               imageRef=args.image_id,
+                               metadata=volume_metadata)
+
+
+def _extract_metadata(args):
+    metadata = {}
+    for metadatum in args.metadata:
+        # unset doesn't require a val, so we have the if/else
+        if '=' in metadatum:
+            (key, value) = metadatum.split('=', 1)
+        else:
+            key = metadatum
+            value = None
+
+        metadata[key] = value
+    return metadata
+

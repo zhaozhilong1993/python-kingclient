@@ -16,6 +16,7 @@
 from kingclient.common import http
 from kingclient.v1 import services
 from kingclient.v1 import quota
+from kingclient.v1 import volume
 
 
 class Client(object):
@@ -33,3 +34,4 @@ class Client(object):
         self.http_client = http._construct_http_client(*args, **kwargs)
         self.services = services.ServiceManager(self.http_client)
         self.quota = quota.QuotaManager(self.http_client)
+        self.volume = volume.VolumeManager(self.http_client)

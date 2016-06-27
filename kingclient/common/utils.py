@@ -307,3 +307,17 @@ def get_response_body(resp):
     else:
         body = None
     return body
+
+
+def service_type(stype):
+    """
+    Adds 'service_type' attribute to decorated function.
+    Usage:
+        @service_type('volume')
+        def mymethod(f):
+            ...
+    """
+    def inner(f):
+        f.service_type = stype
+        return f
+    return inner
