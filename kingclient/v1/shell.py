@@ -81,6 +81,22 @@ def do_quota_list(hc, args=None):
         utils.print_list(value, FIELDS[key], sortby_index=1)
 
 
+@utils.arg('user_id',
+           metavar='<user_id>',
+           default=None,
+           type=str,
+           help='the user ID.')
+def do_quota_show(hc, args=None):
+    '''Show the quota info.'''
+    show_deprecated('king quota-show',
+                    'openstack quota show')
+
+    quotas = hc.quota.show(args.user_id)
+    for key,value in quotas.items():
+        print utils.newline_index(key)
+        utils.print_list(value, FIELDS[key], sortby_index=1)
+
+
 def do_default_list(hc, args=None):
     '''List the default quota info.'''
     show_deprecated('king default-list',
