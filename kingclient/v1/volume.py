@@ -64,4 +64,4 @@ class VolumeManager(base.BaseManager):
                            'imageRef': imageRef,
                            'source_volid': source_volid,
                            }}
-        return self._post('/volumes', body, 'volume')
+        return self._post('/volume', body)

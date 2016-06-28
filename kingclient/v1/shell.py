@@ -182,20 +182,22 @@ def do_default_list(hc, args=None):
 @utils.service_type('volume')
 def do_volumes_create(hc, args):
     """Creates a volumes."""
-
+    field = ('id','name')
     volume_metadata = None
     if args.metadata is not None:
         volume_metadata = _extract_metadata(args)
 
-    volume = hc.volumes.create(args.size,
-                               args.snapshot_id,
-                               args.source_volid,
-                               args.display_name,
-                               args.display_description,
-                               args.volume_type,
-                               availability_zone=args.availability_zone,
-                               imageRef=args.image_id,
-                               metadata=volume_metadata)
+    volume = hc.volume.create(args.size,
+                              args.snapshot_id,
+                              args.source_volid,
+                              args.display_name,
+                              args.display_description,
+                              args.volume_type,
+                              availability_zone=args.availability_zone,
+                              imageRef=args.image_id,
+                              metadata=volume_metadata)
+    for key,value in volume.items():
+        utils.print_list(value, field, sortby_index=1)
 
 
 def _extract_metadata(args):

@@ -63,31 +63,6 @@ class QuotaManager(base.BaseManager):
         return resp
 
 
-    def _post_all(self, url, json, response_key=None, return_raw=False):
-        """Create an object.
-
-        :param url: a partial URL, e.g., '/servers'
-        :param json: data that will be encoded as JSON and passed in POST
-            request (GET will be sent by default)
-        :param response_key: the key to be looked up in response dictionary,
-            e.g., 'server'. If response_key is None - all response body
-            will be used.
-        :param return_raw: flag to force returning raw JSON instead of
-            Python object of self.resource_class
-        """
-        body = self.client.post(url, json=json).json()
-        data = body[response_key] if response_key is not None else body
-        if return_raw:
-            return data
-
-        resp = {}
-        for key,value in data.items():
-            for res in value:
-                resp[key] = []
-                resp[key].append(self.resource_class(self, res, loaded=True))
-        return resp
-
-
     def list(self):
         """Get a list of quota.
 
@@ -106,7 +81,7 @@ class QuotaManager(base.BaseManager):
         body = {
             'user_id':user_id,
         }
-        return self._post_all(url, body)
+        return self._post(url, body)
 
 
     def default_list(self):
