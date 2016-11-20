@@ -15,6 +15,9 @@
 
 from kingclient.common import http
 from kingclient.v1 import services
+from kingclient.v1 import orders
+from kingclient.v1 import prices
+from kingclient.v1 import accounts
 
 
 class Client(object):
@@ -31,3 +34,6 @@ class Client(object):
         """Initialize a new client for the King v1 API."""
         self.http_client = http._construct_http_client(*args, **kwargs)
         self.services = services.ServiceManager(self.http_client)
+        self.order = orders.OrderManager(self.http_client)
+        self.price = prices.PricesManager(self.http_client)
+        self.account = accounts.AccountsManager(self.http_client)

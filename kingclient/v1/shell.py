@@ -29,31 +29,72 @@ SERVICES_FIELDS = (
 )
 
 
-def do_service_list(hc, args=None):
+def do_service_list(kc, args=None):
     '''List the King engines.'''
-    services = hc.services.list()
+    services = kc.services.list()
     utils.print_list(services, SERVICES_FIELDS, sortby_index=1)
 
 
 @utils.arg('resource_id',
-           metavar='<resource_id>',
            type=str,
            help='the resource ID.')
 @utils.arg('price_id',
-           metavar='<price_id>',
            type=str,
            help='the price ID.')
 @utils.arg('account_id',
-           metavar='<account_id>',
            type=str,
            help='the account ID.')
-@utils.arg('order_type',
-           metavar='<order_type>',
+@utils.arg('--order_type',
            default='Time',
-           type=str,
-           help='the account ID.')
-def do_order_create(hc, args=None):
+           help='the order type.')
+def do_order_create(kc, args=None):
     '''Create the order.'''
+    value = {"resource_id": args.resource_id,
+             "price_id": args.price_id,
+             "account_id": args.account_id,
+             "order_type": args.order_type}
+    order = kc.orders.create(value)
+    utils.print_list(order, SERVICES_FIELDS, sortby_index=1)
+
+
+@utils.arg('user_id',
+           metavar='<user_id>',
+           type=str,
+           help='the resource ID.')
+@utils.arg('--default_level',
+           default='3',
+           help='the default account level.')
+@utils.arg('--default_money',
+           default='10',
+           help='the default money.')
+@utils.arg('--default_password',
+           default='10',
+           help='the default account password.')
+def do_account_create(kc, args=None):
+    '''Create the account.'''
+    pass
+
+
+@utils.arg('price_type',
+           type=str,
+           help='The price type.We have: flavor; disk; image; floating_ip')
+@utils.arg('order_type',
+           type=str,
+           default='time',
+           help='The order type.Default: time;'
+                'Choose: time and usage.')
+@utils.arg('resource_id',
+           type=str,
+           default='',
+           help='The relation resource id.Like flavor-id, image-id.'
+                'If the resource is disk or floating_ip,'
+                'resource id is not necessary.')
+@utils.arg('price_num',
+           type=str,
+           default='10',
+           help='the default account password.')
+def do_price_create(kc, args=None):
+    '''Create the price template.'''
     pass
 
 
