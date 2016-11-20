@@ -35,13 +35,13 @@ def do_service_list(kc, args=None):
     utils.print_list(services, SERVICES_FIELDS, sortby_index=1)
 
 
-@utils.arg('resource_id',
+@utils.arg('--resource_id',
            type=str,
            help='the resource ID.')
-@utils.arg('price_id',
+@utils.arg('--price_id',
            type=str,
            help='the price ID.')
-@utils.arg('account_id',
+@utils.arg('--account_id',
            type=str,
            help='the account ID.')
 @utils.arg('--order_type',
@@ -75,21 +75,21 @@ def do_account_create(kc, args=None):
     pass
 
 
-@utils.arg('price_type',
+@utils.arg('--price_type',
            type=str,
            help='The price type.We have: flavor; disk; image; floating_ip')
-@utils.arg('order_type',
+@utils.arg('--order_type',
            type=str,
            default='time',
            help='The order type.Default: time;'
                 'Choose: time and usage.')
-@utils.arg('resource_id',
+@utils.arg('--resource_id',
            type=str,
            default='',
            help='The relation resource id.Like flavor-id, image-id.'
                 'If the resource is disk or floating_ip,'
                 'resource id is not necessary.')
-@utils.arg('price_num',
+@utils.arg('--price_num',
            type=str,
            default='10',
            help='the default account password.')
