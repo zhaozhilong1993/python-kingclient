@@ -84,7 +84,7 @@ def newline_list_formatter(r):
 
 
 def newline_index(index=''):
-    return '\n'+ '='*20 + (index) + '='*20 +'\n'
+    return '\n' + '='*20 + (index) + '='*20 + '\n'
 
 
 def print_dict(d, formatters=None):
