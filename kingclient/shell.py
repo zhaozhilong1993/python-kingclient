@@ -496,7 +496,7 @@ class KingShell(object):
         }
 
         endpoint = args.king_url
-        service_type = args.os_service_type or 'quota'
+        service_type = args.os_service_type or 'charging'
         if args.os_no_client_auth:
             # Do not use session since no_client_auth means using king to
             # to authenticate

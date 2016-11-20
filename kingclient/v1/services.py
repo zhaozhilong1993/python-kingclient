@@ -30,4 +30,4 @@ class ServiceManager(base.BaseManager):
         :rtype: list of :class:`Service`
         """
         url = '/services'
-        return self._list(url, "services")
+        return self._list(url)

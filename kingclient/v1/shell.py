@@ -37,17 +37,19 @@ def do_service_list(hc, args=None):
 
 @utils.arg('resource_id',
            metavar='<resource_id>',
-           default=None,
            type=str,
            help='the resource ID.')
 @utils.arg('price_id',
            metavar='<price_id>',
-           default=None,
            type=str,
            help='the price ID.')
 @utils.arg('account_id',
            metavar='<account_id>',
-           default=None,
+           type=str,
+           help='the account ID.')
+@utils.arg('order_type',
+           metavar='<order_type>',
+           default='Time',
            type=str,
            help='the account ID.')
 def do_order_create(hc, args=None):
