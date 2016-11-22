@@ -34,6 +34,6 @@ class Client(object):
         """Initialize a new client for the King v1 API."""
         self.http_client = http._construct_http_client(*args, **kwargs)
         self.services = services.ServiceManager(self.http_client)
-        self.order = orders.OrderManager(self.http_client)
-        self.price = prices.PricesManager(self.http_client)
-        self.account = accounts.AccountsManager(self.http_client)
+        self.orders = orders.OrderManager(self.http_client)
+        self.prices = prices.PriceManager(self.http_client)
+        self.accounts = accounts.AccountManager(self.http_client)

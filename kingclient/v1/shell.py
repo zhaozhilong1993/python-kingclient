@@ -28,6 +28,15 @@ SERVICES_FIELDS = (
     'status'
 )
 
+ORDER_FIELDS = (
+    'id',
+    'resource_id',
+    'account_id',
+    'price_id',
+    'order_status',
+    'order_type'
+)
+
 
 def do_service_list(kc, args=None):
     '''List the King engines.'''
@@ -41,7 +50,8 @@ def do_service_list(kc, args=None):
 @utils.arg('--price_id',
            type=str,
            help='the price ID.')
-@utils.arg('--account_id',
+@utils.arg('account_id',
+           metavar='<account_id>',
            type=str,
            help='the account ID.')
 @utils.arg('--order_type',
@@ -53,8 +63,9 @@ def do_order_create(kc, args=None):
              "price_id": args.price_id,
              "account_id": args.account_id,
              "order_type": args.order_type}
-    order = kc.orders.create(value)
-    utils.print_list(order, SERVICES_FIELDS, sortby_index=1)
+    body = {"order": value}
+    order = kc.orders.create(body)
+    utils.print_list(order.to_dict(), ORDER_FIELDS, sortby_index=1)
 
 
 @utils.arg('user_id',
