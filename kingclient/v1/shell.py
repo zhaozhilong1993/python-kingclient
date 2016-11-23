@@ -37,6 +37,24 @@ ORDER_FIELDS = (
     'order_type'
 )
 
+PRICE_FIELDS = (
+    'id',
+    'price_type',
+    'resource_id',
+    'price_id',
+    'order_type',
+    'price_num',
+    'created_at',
+)
+
+ACCOUNT_FIELDS = (
+    'id',
+    'user_id',
+    'account_id',
+    'account_level',
+    'account_money',
+    'created_at'
+)
 
 def do_service_list(kc, args=None):
     '''List the King engines.'''
@@ -72,18 +90,21 @@ def do_order_create(kc, args=None):
            metavar='<user_id>',
            type=str,
            help='the resource ID.')
-@utils.arg('--default_level',
-           default='3',
+@utils.arg('--account_level',
            help='the default account level.')
-@utils.arg('--default_money',
-           default='10',
+@utils.arg('--account_money',
            help='the default money.')
-@utils.arg('--default_password',
-           default='10',
+@utils.arg('--account_password',
            help='the default account password.')
 def do_account_create(kc, args=None):
     '''Create the account.'''
-    pass
+    value = {"user_id": args.user_id,
+             "account_level": args.account_level,
+             "account_money": args.account_money,
+             "account_password": args.account_password}
+    body = {"account": value}
+    account = kc.accounts.create(body)
+    utils.print_list(account.to_dict(), ACCOUNT_FIELDS, sortby_index=1)
 
 
 @utils.arg('--price_type',
@@ -100,13 +121,20 @@ def do_account_create(kc, args=None):
            help='The relation resource id.Like flavor-id, image-id.'
                 'If the resource is disk or floating_ip,'
                 'resource id is not necessary.')
-@utils.arg('--price_num',
+@utils.arg('price_num',
+           metavar='<price number>',
            type=str,
-           default='10',
-           help='the default account password.')
+           default='0.5',
+           help='The price of this resource.Default is 0.5.')
 def do_price_create(kc, args=None):
     '''Create the price template.'''
-    pass
+    value = {"resource_id": args.resource_id,
+             "price_type": args.price_type,
+             "price_num": args.price_num,
+             "order_type": args.order_type}
+    body = {"price": value}
+    price = kc.prices.create(body)
+    utils.print_list(price.to_dict(), PRICE_FIELDS, sortby_index=1)
 
 
 def _extract_metadata(args):
