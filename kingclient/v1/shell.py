@@ -107,7 +107,29 @@ def do_account_create(kc, args=None):
     utils.print_list(account.to_dict(), ACCOUNT_FIELDS, sortby_index=1)
 
 
-@utils.arg('--price_type',
+@utils.arg('account_id',
+           metavar='<account_id>',
+           type=str,
+           help='the resource ID.')
+@utils.arg('--recharge',
+           help='the money to recharge.')
+@utils.arg('--recharge_method',
+           default='system',
+           help='the method to recharge.')
+@utils.arg('--recharge_comment',
+           default='',
+           help='the commants.')
+def do_account_recharge(kc, args=None):
+    '''Recharge the account.'''
+    value = {"account_id": args.account_id,
+             "recharge": args.recharge,
+             "recharge_method": args.recharge_method,
+             "recharge_comment": args.recharge_comment}
+    body = {"account": value}
+    account = kc.accounts.recharge(body)
+
+
+@utils.arg('--resource_type',
            type=str,
            help='The price type.We have: flavor; disk; image; floating_ip')
 @utils.arg('--order_type',
@@ -129,7 +151,7 @@ def do_account_create(kc, args=None):
 def do_price_create(kc, args=None):
     '''Create the price template.'''
     value = {"resource_id": args.resource_id,
-             "price_type": args.price_type,
+             "resource_type": args.resource_type,
              "price_num": args.price_num,
              "order_type": args.order_type}
     body = {"price": value}
